@@ -1,121 +1,86 @@
 package ch.hslu.E2;
 
+import java.util.Iterator;
 
-public class LinkedList<T> {
+public class LinkedList<T> implements Iterable<T>{
     private Node<T> head;
-    private Node<T> tail;
     private int size;
 
-    public LinkedList(){
+    public LinkedList() {
         this.head = null;
-        this.tail = null;
         this.size = 0;
     }
 
-    public int getSize(){
+    public int size() {
         return size;
     }
 
-    public Node<T> getHead(){
-        return head;
-    }
-
-    public Node<T> getTail(){
-        return tail;
-    }
-
-    public void push(T value){
-        if(value == null){
-            return;
-        }
-
-        Node<T> node = new Node<>(value);
-
-        if(head == null){
-            head = tail = node;
-        }else{
-            node.setNext(head);
-            head.setPrev(node);
-            node.setPrev(null);
-            head = node;
-        }
+    public void addFirst(T data) {
+        Node<T> newNode = new Node<>(data);
+        newNode.next = head;
+        head = newNode;
         size++;
     }
 
-    public T pop(){
-        T res = head.getValue();
-        remove(res);
-        return res;
+    public boolean contains(T data) {
+        Node<T> current = head;
+        while (current != null) {
+            if (current.data.equals(data)) {
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
     }
 
-    public void remove(T value){
-        if(head == null){
-            return;
+    public T removeFirst() {
+        if (head == null) {
+            throw new IllegalStateException("List is empty");
         }
-
-        if(head.getValue().equals(value)){
-            removeHead();
-            size--;
-            return;
-        }else if(tail.getValue().equals(value)){
-            removeTail();
-            size--;
-            return;
-        }
-
-        Node<T> node = findNodeByValue(value, head);
-
-        if(node == null){
-            return;
-        }
-
-        Node<T> prev = node.getPrev();
-        Node<T> next = node.getNext();
-
-        prev.setNext(next);
-        next.setPrev(prev);
+        T data = head.data;
+        head = head.next;
         size--;
+        return data;
     }
 
-    public boolean contains(T value){
-        return findNodeByValue(value, head) != null;
+    public boolean remove(T data) {
+        if (head == null) {
+            return false;
+        }
+        if (head.data.equals(data)) {
+            head = head.next;
+            size--;
+            return true;
+        }
+        Node<T> current = head;
+        while (current.next != null) {
+            if (current.next.data.equals(data)) {
+                current.next = current.next.next;
+                size--;
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
     }
 
-    /**
-     *
-     * @param value - value to be searched for
-     * @param node - starting node traversing search
-     * @return - Node with the value searched for
-     */
-    private Node<T> findNodeByValue(T value, Node<T> node){
-        if(node.getValue().equals(value)){
-            return node;
-        }
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            private Node<T> current = head;
 
-        if(node.getNext() == null){
-            return null;
-        }
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
 
-        return findNodeByValue(value, node.getNext());
-    }
-
-    private void removeHead(){
-        head = head.getNext();
-
-        if (head != null) {
-            head.setPrev(null);
-        } else {
-            tail = null;
-        }
-    }
-
-    private void removeTail(){
-        tail = tail.getPrev();
-
-        if (tail != null) {
-            tail.setNext(null);
-        } else {
-            head = null;
-        }
+            @Override
+            public T next() {
+                T data = current.data;
+                current = current.next;
+                return data;
+            }
+        };
     }
 }
+
