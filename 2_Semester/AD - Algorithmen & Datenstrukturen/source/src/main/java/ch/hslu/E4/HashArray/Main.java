@@ -1,8 +1,10 @@
-package ch.hslu.E4.HashTable;
+package ch.hslu.E4.HashArray;
+
+import ch.hslu.E4.Car;
 
 public class Main {
     public static void main(String[] args) {
-        HashTableArray<Car> hashTableArray = new HashTableArray<>(14);
+        HashArray<Car> hashTableArray = new HashArray<>(14);
         Car car1 = new Car(101, 4, "Honda", "Civic");
         Car car2 = new Car(202, 5, "Ford", "Focus");
         Car car3 = new Car(303, 2, "Chevrolet", "Camaro");

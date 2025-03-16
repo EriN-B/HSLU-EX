@@ -9,17 +9,17 @@ public class LinkedListTest {
     public void testAddFirstAndSize() {
         LinkedList<Integer> list = new LinkedList<>();
         assertEquals(0, list.size());
-        list.addFirst(10);
+        list.add(10);
         assertEquals(1, list.size());
-        list.addFirst(20);
+        list.add(20);
         assertEquals(2, list.size());
     }
 
     @Test
     public void testContains() {
         LinkedList<Integer> list = new LinkedList<>();
-        list.addFirst(10);
-        list.addFirst(20);
+        list.add(10);
+        list.add(20);
         assertTrue(list.contains(10));
         assertTrue(list.contains(20));
         assertFalse(list.contains(30));
@@ -28,8 +28,8 @@ public class LinkedListTest {
     @Test
     public void testRemoveFirst() {
         LinkedList<Integer> list = new LinkedList<>();
-        list.addFirst(10);
-        list.addFirst(20);
+        list.add(10);
+        list.add(20);
         assertEquals(20, list.removeFirst());
         assertEquals(1, list.size());
         assertEquals(10, list.removeFirst());
@@ -39,9 +39,9 @@ public class LinkedListTest {
     @Test
     public void testRemoveElement() {
         LinkedList<Integer> list = new LinkedList<>();
-        list.addFirst(10);
-        list.addFirst(20);
-        list.addFirst(30);
+        list.add(10);
+        list.add(20);
+        list.add(30);
 
         assertTrue(list.remove(20));
         assertFalse(list.contains(20));

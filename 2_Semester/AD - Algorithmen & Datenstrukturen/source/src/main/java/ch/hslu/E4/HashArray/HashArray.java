@@ -1,6 +1,8 @@
-package ch.hslu.E4.HashTable;
+package ch.hslu.E4.HashArray;
 
-public class HashTableArray<T> implements HashTable<T> {
+import ch.hslu.E4.HashTable;
+
+public class HashArray<T> implements HashTable<T> {
     private T[] elements;
     private int size;
     private final int capacity;
@@ -8,7 +10,7 @@ public class HashTableArray<T> implements HashTable<T> {
     private final Object TOMBSTONE = new Object();
 
     @SuppressWarnings("unchecked")
-    public HashTableArray(int capacity) {
+    public HashArray(int capacity) {
         this.capacity = capacity;
         this.elements = (T[]) new Object[capacity];
         this.size = 0;
@@ -87,7 +89,7 @@ public class HashTableArray<T> implements HashTable<T> {
     }
 
     private int getAbsolutInsertionPoint(T element) {
-        return Math.abs(element.hashCode()) % elements.length;
+        return Math.abs(element.hashCode()) % capacity;
     }
 
     private int getIndex(T element) {

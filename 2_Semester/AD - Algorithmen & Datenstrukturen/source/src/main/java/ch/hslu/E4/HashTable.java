@@ -1,4 +1,4 @@
-package ch.hslu.E4.HashTable;
+package ch.hslu.E4;
 
 public interface HashTable<T> {
 

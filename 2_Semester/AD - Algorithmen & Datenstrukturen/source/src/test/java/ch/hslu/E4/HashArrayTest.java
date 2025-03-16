@@ -2,21 +2,21 @@ package ch.hslu.E4;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import ch.hslu.E4.HashTable.HashTableArray;
+import ch.hslu.E4.HashArray.HashArray;
 import org.junit.jupiter.api.Test;
 
-public class HashTableArrayTest {
+public class HashArrayTest {
 
     @Test
     public void testInsertionAndRetrieval() {
-        HashTableArray<Integer> table = new HashTableArray<>(10);
+        HashArray<Integer> table = new HashArray<>(10);
         table.put(42);
         assertEquals(42, table.get(42));
     }
 
     @Test
     public void testSizeAndRemove() {
-        HashTableArray<String> table = new HashTableArray<>(10);
+        HashArray<String> table = new HashArray<>(10);
         table.put("Hello");
         table.put("World");
         assertEquals(2, table.size());
@@ -28,7 +28,7 @@ public class HashTableArrayTest {
 
     @Test
     public void testCollisionHandling() {
-        HashTableArray<Integer> table = new HashTableArray<>(10);
+        HashArray<Integer> table = new HashArray<>(10);
         int num1 = 10;
         int num2 = 20;
         table.put(num1);
@@ -40,7 +40,7 @@ public class HashTableArrayTest {
 
     @Test
     public void testIsFull() {
-        HashTableArray<Integer> table = new HashTableArray<>(3);
+        HashArray<Integer> table = new HashArray<>(3);
         table.put(1);
         table.put(2);
         table.put(3);
@@ -49,7 +49,7 @@ public class HashTableArrayTest {
 
     @Test
     public void testFullTablePreventsInsertion() {
-        HashTableArray<Integer> table = new HashTableArray<>(2);
+        HashArray<Integer> table = new HashArray<>(2);
         table.put(1);
         table.put(2);
         assertThrows(IllegalStateException.class, () -> table.put(3));
@@ -57,7 +57,7 @@ public class HashTableArrayTest {
 
     @Test
     public void testTombstoneEffect() {
-        HashTableArray<Integer> table = new HashTableArray<>(5);
+        HashArray<Integer> table = new HashArray<>(5);
         table.put(1);
         table.put(2);
         table.put(3);
