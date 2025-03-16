@@ -1,4 +1,4 @@
-package ch.hslu.E4;
+package ch.hslu.E4.HashTable;
 
 import java.util.Objects;
 
