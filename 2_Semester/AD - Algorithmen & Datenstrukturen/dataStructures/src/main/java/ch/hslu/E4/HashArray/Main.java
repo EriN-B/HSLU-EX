@@ -15,9 +15,5 @@ public class Main {
         hashTableArray.put(car2);
         hashTableArray.put(car3);
         System.out.println(hashTableArray);
-        hashTableArray.remove(car2);
-        hashTableArray.remove(car3);
-        hashTableArray.put(car3);
-        System.out.println(hashTableArray);
     }
 }
