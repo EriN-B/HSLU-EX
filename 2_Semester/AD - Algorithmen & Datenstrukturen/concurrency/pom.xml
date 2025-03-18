@@ -20,11 +20,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ch.hslu</groupId>
-    <artifactId>ad_maven_n1_template</artifactId>
+    <artifactId>concurrency</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>ad_maven_n1_template</name>
+    <name>concurrency</name>
     <description>
         Projekt-Template für Java-Projekte an der HSLU. Details siehe unter Beschreibung.
     </description>
