@@ -1,121 +1,82 @@
 package ch.hslu.E2;
 
+import java.util.Iterator;
 
-public class LinkedList<T> {
+public class LinkedList<T> implements Iterable<T> {
     private Node<T> head;
-    private Node<T> tail;
     private int size;
 
-    public LinkedList(){
+    public LinkedList() {
         this.head = null;
-        this.tail = null;
         this.size = 0;
     }
 
-    public int getSize(){
+    public int size() {
         return size;
     }
 
-    public Node<T> getHead(){
-        return head;
+    public void add(T data) {
+        if (!contains(data)) {
+            Node<T> newNode = new Node<>(data);
+            newNode.next = head;
+            head = newNode;
+            size++;
+        }
     }
 
-    public Node<T> getTail(){
-        return tail;
+    public boolean contains(T data) {
+        for (Node<T> current = head; current != null; current = current.next) {
+            if (current.data.equals(data)) return true;
+        }
+        return false;
     }
 
-    public void push(T value){
-        if(value == null){
-            return;
-        }
-
-        Node<T> node = new Node<>(value);
-
-        if(head == null){
-            head = tail = node;
-        }else{
-            node.setNext(head);
-            head.setPrev(node);
-            node.setPrev(null);
-            head = node;
-        }
-        size++;
-    }
-
-    public T pop(){
-        T res = head.getValue();
-        remove(res);
-        return res;
-    }
-
-    public void remove(T value){
-        if(head == null){
-            return;
-        }
-
-        if(head.getValue().equals(value)){
-            removeHead();
-            size--;
-            return;
-        }else if(tail.getValue().equals(value)){
-            removeTail();
-            size--;
-            return;
-        }
-
-        Node<T> node = findNodeByValue(value, head);
-
-        if(node == null){
-            return;
-        }
-
-        Node<T> prev = node.getPrev();
-        Node<T> next = node.getNext();
-
-        prev.setNext(next);
-        next.setPrev(prev);
+    public T removeFirst() {
+        if (head == null) throw new IllegalStateException("List is empty");
+        T data = head.data;
+        head = head.next;
         size--;
+        return data;
     }
 
-    public boolean contains(T value){
-        return findNodeByValue(value, head) != null;
+    public boolean remove(T data) {
+        if (head == null) return false;
+        if (head.data.equals(data)) {
+            head = head.next;
+            size--;
+            return true;
+        }
+        for (Node<T> current = head; current.next != null; current = current.next) {
+            if (current.next.data.equals(data)) {
+                current.next = current.next.next;
+                size--;
+                return true;
+            }
+        }
+        return false;
     }
 
-    /**
-     *
-     * @param value - value to be searched for
-     * @param node - starting node traversing search
-     * @return - Node with the value searched for
-     */
-    private Node<T> findNodeByValue(T value, Node<T> node){
-        if(node.getValue().equals(value)){
-            return node;
-        }
-
-        if(node.getNext() == null){
-            return null;
-        }
-
-        return findNodeByValue(value, node.getNext());
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<>() {
+            private Node<T> current = head;
+            @Override public boolean hasNext() { return current != null; }
+            @Override public T next() { T data = current.data; current = current.next; return data; }
+        };
     }
 
-    private void removeHead(){
-        head = head.getNext();
-
-        if (head != null) {
-            head.setPrev(null);
-        } else {
-            tail = null;
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("[");
+        for (Node<T> current = head; current != null; current = current.next) {
+            sb.append(current.data).append(current.next != null ? " -> " : "");
         }
+        return sb.append("]").toString();
     }
 
-    private void removeTail(){
-        tail = tail.getPrev();
-
-        if (tail != null) {
-            tail.setNext(null);
-        } else {
-            head = null;
-        }
+    private static class Node<T> {
+        T data;
+        Node<T> next;
+        Node(T data) { this.data = data; this.next = null; }
     }
 }
