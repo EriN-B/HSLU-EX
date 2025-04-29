@@ -112,7 +112,7 @@ public class Circle {
      * Move the circle a few pixels down.
      */
     public void moveDown() {
-        moveVertical(20);
+        moveVertical(2);
     }
 
     /**

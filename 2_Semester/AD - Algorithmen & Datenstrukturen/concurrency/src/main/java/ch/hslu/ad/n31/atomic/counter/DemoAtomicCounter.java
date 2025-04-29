@@ -13,23 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.exercise.n1.balls;
+package ch.hslu.ad.n31.atomic.counter;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
- * Demonstration von Bällen.
+ * Eine Demo für einen Zähler mit mehreren Threads.
  */
-public final class DemoBalls {
+public final class DemoAtomicCounter {
+
     /**
      * Privater Konstruktor.
      */
-    private DemoBalls() {
+    private DemoAtomicCounter() {
     }
 
     /**
@@ -38,16 +35,15 @@ public final class DemoBalls {
      * @param args not used.
      */
     public static void main(final String[] args) {
-
-        final String[] color = {"red", "black", "blue", "yellow", "green", "magenta"};
-
-        Random random = new Random();
-
-        System.out.println(random.nextInt(10));
-
-        for(int i = 0; i < 50; i++){
-            Thread thread = new Thread(new Ball(random.nextInt(20, 50), random.nextInt(600), random.nextInt(400), color[random.nextInt(color.length)]), "Ball " + i);
-            thread.start();
+        final int nTasks = 3;
+        final AtomicCounter counter = new AtomicCounter();
+        try (final ExecutorService executor = Executors.newCachedThreadPool()) {
+            for (int i = 1; i <= nTasks; i++) {
+                final AtomicCounterTask task = new AtomicCounterTask(counter);
+                executor.submit(task);
+            }
+        } finally {
+            // Executor shutdown
         }
     }
 }

@@ -34,12 +34,16 @@ public final class Ball implements Runnable {
      */
     public Ball(final int size, final int xPos, final int yPos, String color) {
         this.size = 0;
-        this.circle = null;
+        this.circle = new Circle(size, xPos, yPos, color);
+        circle.makeVisible();
         this.offset = 0;
     }
 
     @Override
     public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        while (circle.getX() > 0){
+            circle.slowMoveVertical(3);
+        }
+        circle.makeInvisible();
     }
 }
