@@ -1,0 +1,9 @@
+algorithm,threshold,time_ms
+parallel_quicksort,500,1867
+parallel_quicksort,1000,1707
+parallel_quicksort,5000,1627
+parallel_quicksort,10000,1618
+parallel_quicksort,20000,1709
+recursive_quicksort,-1,11291
+quick_insertion_sort,-1,11007
+java_dualpivot_sort,-1,5664
