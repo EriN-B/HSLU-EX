@@ -1,0 +1,8 @@
+method,threshold,time_ms
+iterative,-1,0
+parallel_recursive,10,192
+parallel_recursive,20,138
+parallel_recursive,500,826
+parallel_recursive,1000,806
+parallel_recursive,2000,813
+recursive,-1,795
