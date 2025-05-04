@@ -1,0 +1,5 @@
+threshold,time_concurrent_ms,time_sequential_ms,time_parallel_ms
+100,5296,20456,1663
+500,4462,20226,1353
+2000,4215,21275,1318
+5000,4295,20785,1250
