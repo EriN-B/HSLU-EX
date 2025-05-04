@@ -1,51 +1,59 @@
-/*
- * Copyright 2025 Hochschule Luzern Informatik.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package ch.hslu.ad.exercise.n4.findfile;
 
 import java.io.File;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * Codevorlage für eine Dateisuche.
- */
 public final class FindFilePerformance {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FindFilePerformance.class);
+    private FindFilePerformance() {}
 
-    /**
-     * Privater Konstruktor.
-     */
-    private FindFilePerformance() {
-    }
-
-    /**
-     * Main-Demo.
-     *
-     * @param args not used.
-     */
     public static void main(String[] args) {
-        final String search = "find.me";
+        final String searchFile = "find.me";
         final File rootDir = new File(System.getProperty("user.home"));
-        LOG.info("Start searching '{}' recurive in '{}'", search, rootDir);
-        FindFile.findFile(search, rootDir);
-        LOG.info("Found in {} msec.", '?');
-        LOG.info("Find '{}' concurrent in '{}'", search, rootDir);
-        final FindFileTask root = new FindFileTask(search, rootDir);
-        LOG.info(root.invoke());
-        LOG.info("Found in {} msec.", '?');
+
+        final String outputPath = "../docs/measurements/N4/A4/";
+        new File(outputPath).mkdirs();
+        final String fileName = outputPath + "N4_findfile_result.csv";
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
+            writer.println("mode,time_ms,found,dirs_visited,root");
+
+            // Parallel
+            AtomicInteger dirsVisitedParallel = new AtomicInteger(0);
+            AtomicBoolean foundParallel = new AtomicBoolean(false);
+
+            long start = System.currentTimeMillis();
+            FindFileTask task = new FindFileTask(searchFile, rootDir, foundParallel, dirsVisitedParallel);
+            ForkJoinPool.commonPool().invoke(task);
+            long timePar = System.currentTimeMillis() - start;
+
+            writer.printf("parallel,%d,%b,%d,%s%n",
+                    timePar,
+                    foundParallel.get(),
+                    dirsVisitedParallel.get(),
+                    rootDir.getAbsolutePath());
+
+            // Sequentiell
+            AtomicInteger dirsVisitedSeq = new AtomicInteger(0);
+            AtomicBoolean foundSeq = new AtomicBoolean(false);
+
+            start = System.currentTimeMillis();
+            FindFile.findFile(searchFile, rootDir, foundSeq, dirsVisitedSeq);
+            long timeSeq = System.currentTimeMillis() - start;
+
+            writer.printf("sequential,%d,%b,%d,%s%n",
+                    timeSeq,
+                    foundSeq.get(),
+                    dirsVisitedSeq.get(),
+                    rootDir.getAbsolutePath());
+
+            System.out.println("Messung abgeschlossen: " + fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

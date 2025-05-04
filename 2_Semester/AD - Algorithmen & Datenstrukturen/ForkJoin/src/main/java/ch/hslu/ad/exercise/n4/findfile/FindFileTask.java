@@ -1,68 +1,81 @@
-/*
- * Copyright 2025 Hochschule Luzern Informatik.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package ch.hslu.ad.exercise.n4.findfile;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.concurrent.CountedCompleter;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * Codevorlage zu CountedCompleter für eine Dateisuche.
- */
-@SuppressWarnings("serial")
 public final class FindFileTask extends CountedCompleter<String> {
 
-    /**
-     * Name des gesuchten Files.
-     */
-    private final String regex;
-    /**
-     * Verzeichnis, des gesuchten Files.
-     */
-    private final File dir;
-    /**
-     * Referenz auf das gesuchte File mit Verzeichnis.
-     */
-    private final AtomicReference<String> result;
+    private static final Logger LOG = LoggerFactory.getLogger(FindFileTask.class);
 
-    /**
-     * Erzeugt eine File-Such-Aufgabe.
-     *
-     * @param regex Ausdruck der den Filenamen enthält.
-     * @param dir Verzeichnis in dem das File gesucht wird.
-     */
-    public FindFileTask(String regex, File dir) {
-        this(null, regex, dir, new AtomicReference<>(null));
+    private final String regex;
+    private final File dir;
+    private final AtomicReference<String> result;
+    private final AtomicBoolean found;
+    private final AtomicInteger counter;
+
+    public FindFileTask(String regex, File dir, AtomicBoolean found, AtomicInteger counter) {
+        this(null, regex, dir, new AtomicReference<>(null), found, counter);
     }
 
-    private FindFileTask(final CountedCompleter<?> parent, final String regex, final File dir,
-            final AtomicReference<String> result) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private FindFileTask(CountedCompleter<?> parent, String regex, File dir,
+                         AtomicReference<String> result,
+                         AtomicBoolean found,
+                         AtomicInteger counter) {
+        super(parent);
+        this.regex = regex;
+        this.dir = dir;
+        this.result = result;
+        this.found = found;
+        this.counter = counter;
     }
 
     @Override
     public void compute() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (found.get()) {
+            quietlyCompleteRoot();
+            return;
+        }
+
+        counter.incrementAndGet();
+        LOG.debug("Durchsuche: {}", dir.getAbsolutePath());
+
+        File[] files = dir.listFiles();
+        if (files == null) {
+            LOG.debug("Kein Zugriff auf: {}", dir.getAbsolutePath());
+            tryComplete();
+            return;
+        }
+
+        for (File file : files) {
+            if (found.get()) {
+                quietlyCompleteRoot();
+                return;
+            }
+
+            if (file.isDirectory()) {
+                addToPendingCount(1);
+                new FindFileTask(this, regex, file, result, found, counter).fork();
+            } else if (file.getName().equalsIgnoreCase(regex)) {
+                if (result.compareAndSet(null, file.getParent())) {
+                    found.set(true);
+                    LOG.info("Datei gefunden in: {}", file.getParent());
+                }
+                quietlyCompleteRoot();
+                return;
+            }
+        }
+
+        tryComplete();
     }
 
     @Override
     public String getRawResult() {
-        if (result != null) {
-            return result.get();
-        }
-        return null;
+        return result.get();
     }
 }

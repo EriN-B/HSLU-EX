@@ -36,6 +36,7 @@ public final class FibonacciCalc {
         long f = 0;
         long g = 1;
         for (int i = 1; i <= n; i++) {
+            System.out.println("fibonacci iteration " + i);
             f = f + g;
             g = f - g;
         }
