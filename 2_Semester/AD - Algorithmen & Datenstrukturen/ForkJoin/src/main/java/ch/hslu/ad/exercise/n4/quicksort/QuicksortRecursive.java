@@ -15,54 +15,80 @@
  */
 package ch.hslu.ad.exercise.n4.quicksort;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
- * Codevorlage zu RecursiveAction für die Sortierung eines int-Arrays.
+ * Sequentieller Quicksort zur Verwendung in parallelen Aufgaben.
  */
 public final class QuicksortRecursive {
 
-    /**
-     * Privater Konstruktor.
-     */
     private QuicksortRecursive() {
+        // Verhindert Instanziierung
     }
 
     /**
-     * public method exposed to client, sorts given array using QuickSort
-     * Algorithm in Java.
+     * Öffentliche Methode zum Sortieren eines gesamten Arrays.
      *
-     * @param array input array.
+     * @param array das zu sortierende Array.
      */
     public static void quicksort(int[] array) {
-        QuicksortRecursive.quicksort(array, 0, array.length - 1);
+        quicksort(array, 0, array.length - 1);
     }
 
     /**
-     * Recursive quicksort logic.
+     * Rekursive QuickSort-Logik für Teilbereiche.
      *
-     * @param array input array.
-     * @param startIdx start index of the array.
-     * @param endIdx end index of the array.
+     * @param array zu sortierendes Array
+     * @param startIdx unterer Index (inkl.)
+     * @param endIdx oberer Index (inkl.)
      */
     public static void quicksort(int[] array, int startIdx, int endIdx) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (startIdx < endIdx) {
+            int partitionIdx = partition(array, startIdx, endIdx);
+            quicksort(array, startIdx, partitionIdx - 1);
+            quicksort(array, partitionIdx + 1, endIdx);
+        }
     }
 
     /**
-     * Divides array from pivot, left side contains elements less than Pivot
-     * while right side contains elements greater than pivot.
+     * Partitioniert das Array um einen zufälligen Pivot.
      *
-     * @param array array to partitioned.
-     * @param left lower bound of the array.
-     * @param right upper bound of the array.
-     * @return the partition index.
+     * @param array das zu partitionierende Array
+     * @param left linker Rand (inkl.)
+     * @param right rechter Rand (inkl.)
+     * @return Index des Pivots nach Partitionierung
      */
     public static int partition(int[] array, int left, int right) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Zufälligen Pivot wählen und an das Ende tauschen
+        int pivotIndex = ThreadLocalRandom.current().nextInt(left, right + 1);
+        exchange(array, pivotIndex, right);
+
+        int pivot = array[right];
+        int i = left - 1;
+
+        for (int j = left; j < right; j++) {
+            if (array[j] <= pivot) {
+                i++;
+                exchange(array, i, j);
+            }
+        }
+
+        exchange(array, i + 1, right);
+        return i + 1;
     }
 
+    /**
+     * Tauscht zwei Elemente im Array.
+     *
+     * @param array das Array
+     * @param i Index 1
+     * @param j Index 2
+     */
     private static void exchange(final int[] array, final int i, final int j) {
-        int temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
+        if (i != j) {
+            int temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
     }
 }
