@@ -40,6 +40,17 @@ app.put("/favorites/add", (req, res) => {
 
     const json = JSON.parse(data);
 
+    const exists = json.favorites.some(
+      (fav) =>
+        fav.left === newFavorite.left &&
+        fav.right === newFavorite.right &&
+        fav.direction === newFavorite.direction,
+    );
+
+    if (exists) {
+      return;
+    }
+
     try {
       json.favorites.push(newFavorite);
     } catch (err) {
@@ -50,6 +61,12 @@ app.put("/favorites/add", (req, res) => {
       if (err) {
         return res.status(500).json({ error: "Failed to update favorites." });
       }
+
+      res.cookie("lastFavorite", JSON.stringify(newFavorite), {
+        maxAge: 86400000,
+        httpOnly: false,
+      });
+
       res.status(200).json({ message: "Favorite added successfully." });
     });
   });

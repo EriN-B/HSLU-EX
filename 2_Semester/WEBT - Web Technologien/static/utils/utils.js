@@ -3,5 +3,5 @@ export function validateHex(value) {
 }
 
 export function generateGradientCSS(direction, left, right) {
-  return `linear-gradient(to ${direction}, ${left}, ${right})`;
+  return `linear-gradient(${direction}, ${left}, ${right})`;
 }

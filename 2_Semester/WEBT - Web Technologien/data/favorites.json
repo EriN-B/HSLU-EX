@@ -1,59 +1,74 @@
 {
   "favorites": [
     {
-      "right": "#e66465",
+      "right": "#f2709c",
+      "left": "#ff9472",
+      "direction": "to top"
+    },
+    {
+      "right": "#f2709c",
+      "left": "#000000",
+      "direction": "to right"
+    },
+    {
+      "right": "#f00000",
       "left": "#f6b73c",
-      "direction": "right"
+      "direction": "to right"
     },
     {
-      "right": "#9f9999",
+      "right": "#f00000",
       "left": "#f6b73c",
-      "direction": "right"
+      "direction": "to bottom"
     },
     {
-      "right": "#9f9999",
-      "left": "#242424",
-      "direction": "right"
+      "right": "#f00000",
+      "left": "#e66465",
+      "direction": "to bottom"
     },
     {
-      "right": "#e66465",
+      "right": "#000000",
+      "left": "#000000",
+      "direction": "to bottom"
+    },
+    {
+      "left": "#000000",
+      "right": "#ff0000",
+      "direction": "to right"
+    },
+    {
       "left": "#f6b73c",
-      "direction": "right"
+      "right": "#f00000",
+      "direction": "to bottom right"
     },
     {
-      "right": "#877878",
-      "left": "#bcb7ae",
-      "direction": "right"
-    },
-    {
-      "right": "#f6b73c",
-      "left": "#262626",
-      "direction": "right"
-    },
-    {
-      "right": "#00eeff",
       "left": "#f6b73c",
-      "direction": "right"
+      "right": "#af9292",
+      "direction": "to bottom right"
     },
     {
-      "right": "#00eeff",
-      "left": "#908774",
-      "direction": "right"
+      "left": "#e66465",
+      "right": "#000000",
+      "direction": "to bottom"
     },
     {
-      "right": "#e66465",
-      "left": "#f6b73c",
-      "direction": "right"
+      "left": "#8f95a3",
+      "right": "#4a4e4f",
+      "direction": "to top right"
     },
     {
-      "right": "#e66465",
-      "left": "#f6b73c",
-      "direction": "right"
+      "left": "#ffd1ff",
+      "right": "#fad0c4",
+      "direction": "to right"
     },
     {
-      "right": "#e66465",
-      "left": "#f6b73c",
-      "direction": "right"
+      "left": "#5b86e5",
+      "right": "#36d1dc",
+      "direction": "to right"
+    },
+    {
+      "left": "#4b4e53",
+      "right": "#b5c200",
+      "direction": "to top right"
     }
   ]
 }
