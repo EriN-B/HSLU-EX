@@ -10,36 +10,35 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
     <body>
+        <h2>Gradient Generator</h2>
         <div class="gradient_preview"></div>
+
         <div class="picker-container">
             <div class="color-picker">
-                <div class="color-box">
-                    <input
-                        type="color"
-                        id="rightGradient"
-                        name="head"
-                        value="#e66465"
-                        class="color-input"
-                    />
-                    <input type="text" class="hex-input" value="#e66465" />
-                </div>
+                <input
+                    type="color"
+                    id="rightGradient"
+                    name="head"
+                    value="#e66465"
+                    class="color-input"
+                />
+                <input type="text" class="hex-input" value="#e66465" />
             </div>
 
             <div class="color-picker">
-                <div class="color-box">
-                    <input
-                        type="color"
-                        id="leftGradient"
-                        name="body"
-                        value="#f6b73c"
-                        class="color-input"
-                    />
-                    <input type="text" class="hex-input" value="#f6b73c" />
-                </div>
+                <input
+                    type="color"
+                    id="leftGradient"
+                    name="body"
+                    value="#f6b73c"
+                    class="color-input"
+                />
+                <input type="text" class="hex-input" value="#f6b73c" />
             </div>
         </div>
-        <button id="copy">copy</button>
-        <button id="save">save</button>
+
+        <button id="copy">Copy</button>
+        <button id="save">Save</button>
 
         <section id="favorites">
             <h2>Favorites</h2>
@@ -50,6 +49,7 @@
             <h2>Explore</h2>
             <div id="exploreList"></div>
         </section>
+
         <script type="module" src="./index.js"></script>
     </body>
 </html>

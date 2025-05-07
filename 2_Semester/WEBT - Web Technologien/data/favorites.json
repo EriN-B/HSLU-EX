@@ -19,6 +19,41 @@
       "right": "#e66465",
       "left": "#f6b73c",
       "direction": "right"
+    },
+    {
+      "right": "#877878",
+      "left": "#bcb7ae",
+      "direction": "right"
+    },
+    {
+      "right": "#f6b73c",
+      "left": "#262626",
+      "direction": "right"
+    },
+    {
+      "right": "#00eeff",
+      "left": "#f6b73c",
+      "direction": "right"
+    },
+    {
+      "right": "#00eeff",
+      "left": "#908774",
+      "direction": "right"
+    },
+    {
+      "right": "#e66465",
+      "left": "#f6b73c",
+      "direction": "right"
+    },
+    {
+      "right": "#e66465",
+      "left": "#f6b73c",
+      "direction": "right"
+    },
+    {
+      "right": "#e66465",
+      "left": "#f6b73c",
+      "direction": "right"
     }
   ]
 }

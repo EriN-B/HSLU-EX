@@ -86,7 +86,7 @@ async function renderFavorites() {
       div.style.margin = "10px";
       div.style.border = "1px solid #ccc";
       div.style.borderRadius = "6px";
-      div.style.background = generateGradientCSS(g.direction, g.left, g.right);
+      div.style.background = generateGradientCSS(g.direction, g.right, g.left);
       container.appendChild(div);
     });
   } catch (err) {
