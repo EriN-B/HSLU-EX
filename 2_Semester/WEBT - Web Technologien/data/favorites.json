@@ -1,18 +1,23 @@
 {
   "favorites": [
     {
-      "left": "#f6b73c",
       "right": "#e66465",
+      "left": "#f6b73c",
       "direction": "right"
     },
     {
+      "right": "#9f9999",
       "left": "#f6b73c",
-      "right": "#e66465",
       "direction": "right"
     },
     {
+      "right": "#9f9999",
+      "left": "#242424",
+      "direction": "right"
+    },
+    {
+      "right": "#e66465",
       "left": "#f6b73c",
-      "right": "#6a5858",
       "direction": "right"
     }
   ]

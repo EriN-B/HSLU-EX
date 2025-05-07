@@ -5,6 +5,10 @@ const FAVORITES_URL = "/favorites";
 const GRADIENTS_URL = "/gradients";
 
 document.addEventListener("DOMContentLoaded", () => {
+  generateGradient();
+  renderFavorites();
+  renderExplore();
+
   document.getElementById("save").addEventListener("click", saveGradient);
 
   document.querySelectorAll(".color-input").forEach((input) => {
@@ -18,10 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .querySelector("button")
     .addEventListener("click", () => generateGradient());
-
-  document
-    .getElementById("save")
-    .addEventListener("click", () => saveGradient());
 });
 
 function syncHex(colorInput) {
@@ -65,8 +65,56 @@ async function saveGradient() {
   });
 
   if (!res.ok) {
-    console.error("Failed to save gradient", await res.json());
+    alert("Failed to safe gradient. Try again.");
   } else {
-    console.log("Gradient saved!");
+    renderFavorites();
+  }
+}
+
+async function renderFavorites() {
+  const container = document.getElementById("favoritesList");
+  container.innerHTML = "";
+
+  try {
+    const res = await fetch(FAVORITES_URL);
+    const data = await res.json();
+    const gradients = data.favorites || [];
+
+    gradients.forEach((g) => {
+      const div = document.createElement("div");
+      div.style.height = "100px";
+      div.style.margin = "10px";
+      div.style.border = "1px solid #ccc";
+      div.style.borderRadius = "6px";
+      div.style.background = generateGradientCSS(g.direction, g.left, g.right);
+      container.appendChild(div);
+    });
+  } catch (err) {
+    container.textContent = "Failed to load favorites.";
+  }
+}
+
+async function renderExplore() {
+  const container = document.getElementById("exploreList");
+  container.innerHTML = "";
+
+  try {
+    const res = await fetch(GRADIENTS_URL);
+    const data = await res.json();
+    const gradients = data.gradients || [];
+
+    console.log(gradients);
+
+    gradients.forEach((g) => {
+      const div = document.createElement("div");
+      div.style.height = "100px";
+      div.style.margin = "10px";
+      div.style.border = "1px solid #ccc";
+      div.style.borderRadius = "6px";
+      div.style.background = generateGradientCSS(g.direction, g.left, g.right);
+      container.appendChild(div);
+    });
+  } catch (err) {
+    container.textContent = "Failed to load gradients.";
   }
 }

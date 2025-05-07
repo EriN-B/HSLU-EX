@@ -12,7 +12,7 @@ const gradientsPath = path.join(__dirname, "../data/gradients.json");
 app.use(express.static(path.join(__dirname, "../static")));
 app.use(express.json());
 
-app.get("/gradients/", (req, res) => {
+app.get("/gradients", (req, res) => {
   fs.readFile(gradientsPath, "utf8", (err, data) => {
     if (err) res.status(500).json({ error: "Failed to read internal Data" });
     return res.status(200).json({ ...JSON.parse(data) });
