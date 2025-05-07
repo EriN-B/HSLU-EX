@@ -1,0 +1,34 @@
+{
+  "gradients": [
+    {
+      "right": "#051937",
+      "left": "#A8EB12",
+      "direction": "right top"
+    },
+    {
+      "right": "#FF6B6B",
+      "left": "#FFD93D",
+      "direction": "to right"
+    },
+    {
+      "right": "#36D1DC",
+      "left": "#5B86E5",
+      "direction": "to left"
+    },
+    {
+      "right": "#FAD0C4",
+      "left": "#FFD1FF",
+      "direction": "to bottom right"
+    },
+    {
+      "right": "#00C9FF",
+      "left": "#92FE9D",
+      "direction": "to top"
+    },
+    {
+      "right": "#F2709C",
+      "left": "#FF9472",
+      "direction": "to bottom"
+    }
+  ]
+}
