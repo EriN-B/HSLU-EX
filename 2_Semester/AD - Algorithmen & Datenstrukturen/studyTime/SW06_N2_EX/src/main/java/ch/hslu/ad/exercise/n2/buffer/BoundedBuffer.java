@@ -17,6 +17,7 @@ package ch.hslu.ad.exercise.n2.buffer;
 
 import java.util.ArrayDeque;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Puffer nach dem First In First Out Prinzip mit einer begrenzten Kapazität.
@@ -63,26 +64,40 @@ public final class BoundedBuffer<T> implements Buffer<T> {
 
     @Override
     public boolean add(T elem, long millis) throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!this.putSema.tryAcquire(millis, TimeUnit.MILLISECONDS)) return false;
+
+        synchronized (queue){
+            queue.addFirst(elem);
+        }
+        takeSema.release();
+        return true;
     }
 
     @Override
     public T remove(long millis) throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!this.takeSema.tryAcquire(millis, TimeUnit.MILLISECONDS)) return null;
+
+        T element;
+        synchronized (queue){
+            element = queue.removeLast();
+        }
+
+        putSema.release();
+        return element;
     }
 
     @Override
     public boolean empty() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return takeSema.availablePermits() == 0;
     }
 
     @Override
     public boolean full() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return putSema.availablePermits() == 0;
     }
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return takeSema.availablePermits();
     }
 }

@@ -40,7 +40,7 @@ public final class Consumer implements Runnable {
     public void run() {
         while (true) {
             try {
-                Integer temp = queue.remove(DemoBoundedBuffer.TIMEOUT);
+                Integer temp = queue.remove(0);
                 if (temp == null) {
                     LOG.info("Consumer remove timeout");
                     break;

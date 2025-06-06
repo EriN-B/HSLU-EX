@@ -25,50 +25,24 @@ public final class Semaphore {
     private int count; // Anzahl der wartenden Threads.
     private int limit;
 
-    /**
-     * Erzeugt ein Semaphore mit 0 Passiersignalen.
-     */
     public Semaphore() {
-        this(0, Integer.MAX_VALUE);
+        this(0, 1);
     }
 
-    /**
-     * Erzeugt ein Semaphore mit einem Initalwert für den Semaphorenzähler.
-     *
-     * @param permits Anzahl Passiersignale zur Initialisierung.
-     * @throws IllegalArgumentException wenn der Initalwert negativ ist.
-     */
     public Semaphore(final int permits) throws IllegalArgumentException {
-        if (permits < 0) {
-            throw new IllegalArgumentException(permits + " < 0");
+        this(permits, permits+1);
+    }
+
+    public Semaphore(final int permits, final int limit) throws IllegalArgumentException {
+        if(permits > limit | permits < 0){
+            throw new IllegalArgumentException();
         }
+
         sema = permits;
         count = 0;
-    }
-
-    /**
-     * Erzeugt ein nach oben begrenztes Semaphore.
-     *
-     * @param permits Anzahl Passiersignale zur Initialisierung.
-     * @param limit maximale Anzahl der Passiersignale.
-     * @throws IllegalArgumentException wenn Argumente ungültige Werte besitzen.
-     */
-    public Semaphore(final int permits, final int limit) throws IllegalArgumentException {
-        if(permits > limit){
-            throw new IllegalArgumentException("");
-        }
-        sema = permits;
         this.limit = limit;
     }
 
-    /**
-     * Entspricht dem P() Eintritt (Passieren) in einen synchronisierten
-     * Bereich, wobei mitgezählt wird, der wievielte Eintritt es ist. Falls der
-     * Zähler null ist wird der Aufrufer blockiert.
-     *
-     * @throws java.lang.InterruptedException falls das Warten unterbrochen
-     * wird.
-     */
     public synchronized void acquire() throws InterruptedException {
         while (sema == 0) {
             count++;
@@ -78,53 +52,36 @@ public final class Semaphore {
         sema--;
     }
 
-    /**
-     * Entspricht dem P() Eintritt (Passieren) in einen synchronisierten
-     * Bereich, wobei mitgezählt wird, der wievielte Eintritt es ist.Falls der
-     * Zähler null ist wird der Aufrufer blockiert.
-     *
-     * @param permits Anzahl Passiersignale zum Eintritt.
-     * @throws java.lang.InterruptedException falls das Warten unterbrochen
-     * wird.
-     */
     public synchronized void acquire(final int permits) throws InterruptedException {
-        if(sema + permits > limit){
+
+        if(permits <= 0 | permits > limit){
             throw new IllegalArgumentException();
         }
 
-        if(sema == 0){
-            count++;
+        this.count++;
+
+        while(permits > sema){
             this.wait();
-            count--;
         }
-        sema--;
+
+        this.count--;
+        sema-=permits;
     }
 
-    /**
-     * Entspricht dem V() Verlassen (Freigeben) eines synchronisierten
-     * Bereiches, wobei ebenfalls mitgezählt wird, wie oft der Bereich verlassen
-     * wird.
-     */
     public synchronized void release() {
         sema++;
         this.notifyAll();
     }
 
-    /**
-     * Entspricht dem V() Verlassen (Freigeben) eines synchronisierten
-     * Bereiches, wobei mitgezählt wird, wie oft der Bereich verlassen wird.
-     *
-     * @param permits Anzahl Passiersignale zur Freigabe.
-     */
     public synchronized void release(final int permits) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (sema + permits > limit | permits < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        sema+=permits;
+        notifyAll();
     }
 
-    /**
-     * Lesen der Anzahl wartenden Threads.
-     *
-     * @return Anzahl wartende Threads.
-     */
     public synchronized int pending() {
         return count;
     }
