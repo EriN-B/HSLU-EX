@@ -1,13 +1,17 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
-const { validateFavoritesBody } = require("./utils/req.utils");
 
 const app = express();
 const PORT = 8001;
 
 const favoritesPath = path.join(__dirname, "../data/favorites.json");
 const gradientsPath = path.join(__dirname, "../data/gradients.json");
+
+function validateFavoritesBody(req) {
+  const re = new RegExp("^#(?:[0-9a-fA-F]{3}){1,2}$");
+  return re.test(req.right) && re.test(req.left) && !!req.direction;
+}
 
 app.use(express.static(path.join(__dirname, "../static")));
 app.use(express.json());
