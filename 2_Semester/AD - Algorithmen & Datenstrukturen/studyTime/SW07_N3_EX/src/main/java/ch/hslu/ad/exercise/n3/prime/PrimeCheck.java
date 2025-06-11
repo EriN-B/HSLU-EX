@@ -16,7 +16,11 @@
 package ch.hslu.ad.exercise.n3.prime;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.*;
+
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -38,14 +42,28 @@ public final class PrimeCheck {
      *
      * @param args not used.
      */
-    public static void main(String[] args) {
-        int n = 1;
-        while (n <= 100) {
-            BigInteger bi = new BigInteger(1024, new Random());
-            if (bi.isProbablePrime(Integer.MAX_VALUE)) {
-                LOG.info("{} : {}...", n, bi.toString().substring(0, 20));
-                n++;
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        final Logger LOG = LoggerFactory.getLogger(PrimeCheck.class);
+        ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        List<Future<BigInteger>> futures = new ArrayList<>();
+
+        Runnable task = () -> {
+            while (true) {
+                BigInteger bi = new BigInteger(1024, new Random());
             }
+        };
+
+
+        task.
+        for(int i = 0; i < 100; i++){
+            futures.add(pool.submit(task));
+        }
+
+        int track = 0;
+        for(Future<BigInteger> future: futures){
+            String big = future.get().toString().substring(0,10);
+            LOG.info("{}: {}", track, big);
+            track++;
         }
     }
 }

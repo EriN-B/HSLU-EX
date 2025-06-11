@@ -1,0 +1,14 @@
+{
+  "name": "webt",
+  "version": "1.0.0",
+  "description": "Abschlussprojekt WEBT - Web Technologien",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app/app.js"
+  },
+  "author": "Erin Bachmann",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

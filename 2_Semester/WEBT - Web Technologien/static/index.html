@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Gradient Generator</title>
+        <link
+            rel="stylesheet"
+            href="https://www.w3schools.com/w3css/5/w3.css"
+        />
+        <link rel="stylesheet" href="./index.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <section id="hero" class="hero-section w3-container">
+            <div class="hero-content w3-flex">
+                <img
+                    src="assets/swatch-book.svg"
+                    alt="Illustration of a swatch book for gradients"
+                    class="hero-image"
+                />
+                <div class="hero-text">
+                    <p>
+                        Welcome to the Gradient Generator! Select two colors,
+                        choose a direction, and instantly preview and save your
+                        CSS gradients. Manage your favorites and explore
+                        inspiring presets.
+                    </p>
+                </div>
+            </div>
+        </section>
+        <div class="gradient_preview"></div>
+        <canvas id="gradientCanvas" width="400" height="50"></canvas>
+
+        <div class="picker-container w3-flex">
+            <div class="color-picker">
+                <input
+                    type="color"
+                    id="leftGradient"
+                    name="body"
+                    value="#f6b73c"
+                    class="color-input"
+                />
+                <input type="text" class="hex-input" value="#f6b73c" />
+                <small class="error-message"></small>
+            </div>
+
+            <div class="color-picker">
+                <input
+                    type="color"
+                    id="rightGradient"
+                    name="head"
+                    value="#e66465"
+                    class="color-input"
+                />
+                <input type="text" class="hex-input" value="#e66465" />
+                <small class="error-message"></small>
+            </div>
+        </div>
+
+        <div class="direction-picker">
+            <label for="direction">Direction</label>
+            <select id="direction">
+                <option value="to right">→ Right</option>
+                <option value="to left">← Left</option>
+                <option value="to bottom">↓ Bottom</option>
+                <option value="to top">↑ Top</option>
+                <option value="to bottom right">↘ Bottom Right</option>
+                <option value="to bottom left">↙ Bottom Left</option>
+                <option value="to top right">↗ Top Right</option>
+                <option value="to top left">↖ Top Left</option>
+            </select>
+        </div>
+
+        <div class="actions w3-flex">
+            <button id="copy">Copy</button>
+            <button id="save">Save</button>
+        </div>
+
+        <section id="favorites">
+            <h2>Favorites</h2>
+            <div id="favoritesList" class="w3-grid"></div>
+        </section>
+
+        <section id="explore">
+            <h2>Explore</h2>
+            <div id="exploreList" class="w3-grid"></div>
+        </section>
+
+        <script type="module" src="./index.js"></script>
+    </body>
+</html>
