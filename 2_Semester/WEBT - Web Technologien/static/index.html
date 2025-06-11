@@ -10,8 +10,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
     <body>
-        <section id="hero" class="hero-section">
-            <div class="hero-content">
+        <section id="hero" class="hero-section w3-container">
+            <div class="hero-content w3-flex">
                 <img
                     src="assets/swatch-book.svg"
                     alt="Illustration of a swatch book for gradients"
@@ -30,7 +30,7 @@
         <div class="gradient_preview"></div>
         <canvas id="gradientCanvas" width="400" height="50"></canvas>
 
-        <div class="picker-container">
+        <div class="picker-container w3-flex">
             <div class="color-picker">
                 <input
                     type="color"
@@ -70,19 +70,19 @@
             </select>
         </div>
 
-        <div class="actions">
-            <button id="copy">Copy CSS</button>
+        <div class="actions w3-flex">
+            <button id="copy">Copy</button>
             <button id="save">Save</button>
         </div>
 
         <section id="favorites">
             <h2>Favorites</h2>
-            <div id="favoritesList"></div>
+            <div id="favoritesList" class="w3-grid"></div>
         </section>
 
         <section id="explore">
             <h2>Explore</h2>
-            <div id="exploreList"></div>
+            <div id="exploreList" class="w3-grid"></div>
         </section>
 
         <script type="module" src="./index.js"></script>

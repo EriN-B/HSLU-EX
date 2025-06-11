@@ -14,32 +14,32 @@ app.use(express.json());
 
 app.get("/gradients", (req, res) => {
   fs.readFile(gradientsPath, "utf8", (err, data) => {
-    if (err) res.status(500).json({ error: "Failed to read internal Data" });
-    return res.status(200).json({ ...JSON.parse(data) });
+    if (err)
+      return res.status(500).json({ error: "Failed to read internal Data" });
+    res.status(200).json({ ...JSON.parse(data) });
   });
 });
 
 app.get("/favorites", (req, res) => {
   fs.readFile(favoritesPath, "utf8", (err, data) => {
-    if (err) res.status(500).json({ error: "Failed to read internal Data" });
-    return res.status(200).json({ ...JSON.parse(data) });
+    if (err)
+      return res.status(500).json({ error: "Failed to read internal Data" });
+    res.status(200).json({ ...JSON.parse(data) });
   });
 });
 
 app.put("/favorites/add", (req, res) => {
   const newFavorite = req.body;
 
-  if (!validateFavoritesBody(req.body)) {
+  if (!validateFavoritesBody(newFavorite)) {
     return res.status(400).json({ error: "Invalid request Body" });
   }
 
   fs.readFile(favoritesPath, "utf-8", (err, data) => {
-    if (err) {
+    if (err)
       return res.status(500).json({ error: "Failed to read internal data" });
-    }
 
     const json = JSON.parse(data);
-
     const exists = json.favorites.some(
       (fav) =>
         fav.left === newFavorite.left &&
@@ -47,20 +47,13 @@ app.put("/favorites/add", (req, res) => {
         fav.direction === newFavorite.direction,
     );
 
-    if (exists) {
-      return;
-    }
+    if (exists) return;
 
-    try {
-      json.favorites.push(newFavorite);
-    } catch (err) {
-      return res.status(500).json({ error: "Failed to update favorites." });
-    }
+    json.favorites.push(newFavorite);
 
     fs.writeFile(favoritesPath, JSON.stringify(json, null, 2), (err) => {
-      if (err) {
+      if (err)
         return res.status(500).json({ error: "Failed to update favorites." });
-      }
 
       res.cookie("lastFavorite", JSON.stringify(newFavorite), {
         maxAge: 86400000,

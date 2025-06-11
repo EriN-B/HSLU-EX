@@ -69,6 +69,21 @@
       "left": "#4b4e53",
       "right": "#b5c200",
       "direction": "to top right"
+    },
+    {
+      "left": "#0062ff",
+      "right": "#b5c200",
+      "direction": "to top right"
+    },
+    {
+      "left": "#0062ff",
+      "right": "#ffffff",
+      "direction": "to top right"
+    },
+    {
+      "left": "#ff9472",
+      "right": "#f2709c",
+      "direction": "to right"
     }
   ]
 }

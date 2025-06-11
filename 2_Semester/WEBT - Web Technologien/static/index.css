@@ -137,9 +137,8 @@ button:hover {
 
 .actions {
     display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     margin-top: 1rem;
 }
 
@@ -167,6 +166,8 @@ button:hover {
 
 #gradientCanvas {
     display: block;
+    width: 100%;
+    max-width: 400px;
     margin: 1rem auto;
     border-radius: 6px;
     border: 1px solid #ccc;
@@ -181,14 +182,4 @@ button:hover {
 
 .input-error {
     border: 1px solid red;
-}
-
-#gradientCanvas {
-    width: 100%;
-    max-width: 400px;
-    height: auto;
-    display: block;
-    margin: 1rem auto;
-    border-radius: 6px;
-    border: 1px solid #ccc;
 }
