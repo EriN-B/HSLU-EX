@@ -180,7 +180,7 @@ function makeGradientDiv(g, isFavorite = false) {
     deleteBtn.textContent = "×";
     deleteBtn.title = "Delete favorite";
     deleteBtn.addEventListener("click", (e) => {
-      e.stopPropagation(); // Prevent triggering the parent div's click event
+      e.stopPropagation();
       deleteFavorite(g);
     });
     div.appendChild(deleteBtn);
@@ -218,15 +218,12 @@ function copyGradient() {
 
   const gradientCSS = generateGradientCSS(d, l, r);
 
-  // Copy to clipboard
   navigator.clipboard.writeText(gradientCSS)
     .then(() => {
-      // Provide visual feedback that the copy was successful
       const copyBtn = document.getElementById("copy");
       const originalText = copyBtn.textContent;
       copyBtn.textContent = "Copied!";
 
-      // Reset button text after a short delay
       setTimeout(() => {
         copyBtn.textContent = originalText;
       }, 2000);
