@@ -1,16 +1,4 @@
 {
   "favorites": [
-    {
-      "left": "#f6b73c",
-      "right": "#f00000",
-      "direction": "to right",
-      "uuid": "9af86ff5-411a-439e-b199-9325f2036067"
-    },
-    {
-      "left": "#11ff00",
-      "right": "#adadad",
-      "direction": "to right",
-      "uuid": "a09f7f32-4682-4f41-8f00-86ce6f70c81e"
-    }
   ]
 }
