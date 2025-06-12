@@ -92,7 +92,12 @@ async function saveGradient() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-  res.ok ? renderFavorites() : alert("Failed to save gradient. Try again.");
+
+  if (res.ok) {
+    renderFavorites();
+  } else {
+    alert("Failed to save gradient. Try again.");
+  }
 }
 
 async function renderFavorites() {
@@ -110,10 +115,13 @@ async function renderFavorites() {
 
 async function deleteFavorite(gradient) {
   try {
+    // We only need to send the UUID for deletion
+    const deletePayload = { uuid: gradient.uuid };
+
     const res = await fetch(FAVORITES_DELETE_URL, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(gradient),
+      body: JSON.stringify(deletePayload),
     });
 
     if (res.ok) {

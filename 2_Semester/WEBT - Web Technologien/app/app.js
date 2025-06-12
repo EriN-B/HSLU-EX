@@ -1,6 +1,7 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 const app = express();
 const PORT = 8001;
@@ -53,6 +54,8 @@ app.put("/favorites/add", (req, res) => {
 
     if (exists) return;
 
+    // Generate UUID for the new favorite
+    newFavorite.uuid = crypto.randomUUID();
     json.favorites.push(newFavorite);
 
     fs.writeFile(favoritesPath, JSON.stringify(json, null, 2), (err) => {
@@ -64,7 +67,7 @@ app.put("/favorites/add", (req, res) => {
         httpOnly: false,
       });
 
-      res.status(200).json({ message: "Favorite added successfully." });
+      res.status(200).json({ message: "Favorite added successfully.", uuid: newFavorite.uuid });
     });
   });
 });
@@ -72,8 +75,8 @@ app.put("/favorites/add", (req, res) => {
 app.delete("/favorites/delete", (req, res) => {
   const favoriteToDelete = req.body;
 
-  if (!validateFavoritesBody(favoriteToDelete)) {
-    return res.status(400).json({ error: "Invalid request Body" });
+  if (!favoriteToDelete.uuid) {
+    return res.status(400).json({ error: "UUID is required for deletion" });
   }
 
   fs.readFile(favoritesPath, "utf-8", (err, data) => {
@@ -84,10 +87,7 @@ app.delete("/favorites/delete", (req, res) => {
     const initialLength = json.favorites.length;
 
     json.favorites = json.favorites.filter(
-      (fav) =>
-        !(fav.left === favoriteToDelete.left &&
-        fav.right === favoriteToDelete.right &&
-        fav.direction === favoriteToDelete.direction)
+      (fav) => fav.uuid !== favoriteToDelete.uuid
     );
 
     // If no favorite was removed, return early
