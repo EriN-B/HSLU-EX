@@ -1,4 +1,10 @@
 {
   "favorites": [
+    {
+      "left": "#1c768d",
+      "right": "#ff6b6b",
+      "direction": "to bottom right",
+      "uuid": "426b0df7-895f-4bd9-8c4d-d9941e3ee84b"
+    }
   ]
 }
