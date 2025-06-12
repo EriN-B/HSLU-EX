@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderLastFavoriteFromCookie();
 
   document.getElementById("save").addEventListener("click", saveGradient);
-  document.getElementById("copy").addEventListener("click", generateGradient);
+  document.getElementById("copy").addEventListener("click", copyGradient);
   document
     .getElementById("direction")
     .addEventListener("change", generateGradient);
@@ -209,6 +209,32 @@ function drawColorStrip(left, right) {
     ctx.fillStyle = `rgb(${r}, ${g}, ${b_})`;
     ctx.fillRect(i * (w / 10), 0, w / 10, h);
   }
+}
+
+function copyGradient() {
+  const l = document.getElementById("leftGradient").value,
+    r = document.getElementById("rightGradient").value,
+    d = document.getElementById("direction").value;
+
+  const gradientCSS = generateGradientCSS(d, l, r);
+
+  // Copy to clipboard
+  navigator.clipboard.writeText(gradientCSS)
+    .then(() => {
+      // Provide visual feedback that the copy was successful
+      const copyBtn = document.getElementById("copy");
+      const originalText = copyBtn.textContent;
+      copyBtn.textContent = "Copied!";
+
+      // Reset button text after a short delay
+      setTimeout(() => {
+        copyBtn.textContent = originalText;
+      }, 2000);
+    })
+    .catch(err => {
+      console.error("Failed to copy gradient: ", err);
+      alert("Failed to copy gradient to clipboard");
+    });
 }
 
 function renderLastFavoriteFromCookie() {
