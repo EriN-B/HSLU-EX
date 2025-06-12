@@ -1,6 +1,7 @@
 import { generateGradientCSS, validateHex } from "./utils/utils.js";
 
 const FAVORITES_ADD_URL = "/favorites/add",
+  FAVORITES_DELETE_URL = "/favorites/delete",
   FAVORITES_URL = "/favorites",
   GRADIENTS_URL = "/gradients";
 
@@ -100,10 +101,30 @@ async function renderFavorites() {
   try {
     const res = await fetch(FAVORITES_URL);
     (await res.json()).favorites?.forEach((g) =>
-      c.appendChild(makeGradientDiv(g)),
+      c.appendChild(makeGradientDiv(g, true)),
     );
   } catch {
     c.textContent = "Failed to load favorites.";
+  }
+}
+
+async function deleteFavorite(gradient) {
+  try {
+    const res = await fetch(FAVORITES_DELETE_URL, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(gradient),
+    });
+
+    if (res.ok) {
+      renderFavorites(); // Refresh the favorites list
+    } else {
+      const errorData = await res.json();
+      alert(`Failed to delete favorite: ${errorData.error || 'Unknown error'}`);
+    }
+  } catch (error) {
+    alert("Failed to delete favorite. Please try again.");
+    console.error("Error deleting favorite:", error);
   }
 }
 
@@ -120,10 +141,16 @@ async function renderExplore() {
   }
 }
 
-function makeGradientDiv(g) {
+function makeGradientDiv(g, isFavorite = false) {
   const div = document.createElement("div");
   div.style.background = generateGradientCSS(g.direction, g.left, g.right);
-  div.addEventListener("click", () => {
+  div.className = "gradient-item";
+
+  // Add click event to load the gradient
+  div.addEventListener("click", (e) => {
+    // Don't trigger if clicking the delete button
+    if (e.target.classList.contains('delete-btn')) return;
+
     const leftInput = document.getElementById("leftGradient");
     const rightInput = document.getElementById("rightGradient");
     leftInput.value = g.left;
@@ -137,6 +164,20 @@ function makeGradientDiv(g) {
       .getElementById("gradientCanvas")
       .scrollIntoView({ behavior: "smooth", block: "center" });
   });
+
+  // Add delete button only for favorites
+  if (isFavorite) {
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "delete-btn";
+    deleteBtn.textContent = "×";
+    deleteBtn.title = "Delete favorite";
+    deleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation(); // Prevent triggering the parent div's click event
+      deleteFavorite(g);
+    });
+    div.appendChild(deleteBtn);
+  }
+
   return div;
 }
 

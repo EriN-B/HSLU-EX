@@ -69,6 +69,41 @@ app.put("/favorites/add", (req, res) => {
   });
 });
 
+app.delete("/favorites/delete", (req, res) => {
+  const favoriteToDelete = req.body;
+
+  if (!validateFavoritesBody(favoriteToDelete)) {
+    return res.status(400).json({ error: "Invalid request Body" });
+  }
+
+  fs.readFile(favoritesPath, "utf-8", (err, data) => {
+    if (err)
+      return res.status(500).json({ error: "Failed to read internal data" });
+
+    const json = JSON.parse(data);
+    const initialLength = json.favorites.length;
+
+    json.favorites = json.favorites.filter(
+      (fav) =>
+        !(fav.left === favoriteToDelete.left &&
+        fav.right === favoriteToDelete.right &&
+        fav.direction === favoriteToDelete.direction)
+    );
+
+    // If no favorite was removed, return early
+    if (json.favorites.length === initialLength) {
+      return res.status(404).json({ error: "Favorite not found" });
+    }
+
+    fs.writeFile(favoritesPath, JSON.stringify(json, null, 2), (err) => {
+      if (err)
+        return res.status(500).json({ error: "Failed to update favorites." });
+
+      res.status(200).json({ message: "Favorite deleted successfully." });
+    });
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
