@@ -107,9 +107,10 @@ async function renderFavorites() {
   c.innerHTML = "";
   try {
     const res = await fetch(FAVORITES_URL);
-    (await res.json()).favorites?.forEach((g) =>
-      c.appendChild(makeGradientDiv(g, true)),
-    );
+    const favorites = (await res.json()).favorites
+
+    favorites.length > 0 ? favorites.forEach((g) =>
+        c.appendChild(makeGradientDiv(g, true))) : c.innerHTML = "No favorites :(";
   } catch {
     c.textContent = "Failed to load favorites.";
   }
