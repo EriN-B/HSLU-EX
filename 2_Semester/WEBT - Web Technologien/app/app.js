@@ -42,8 +42,7 @@ app.get("/favorites", (req, res) => {
 
       if (cookies.lastFavorite) {
         try {
-          const lastFavorite = JSON.parse(decodeURIComponent(cookies.lastFavorite));
-          response.lastFavorite = lastFavorite;
+          response.lastFavorite = JSON.parse(decodeURIComponent(cookies.lastFavorite));
         } catch (error) {
           console.error("Error parsing lastFavorite cookie:", error);
         }
@@ -73,9 +72,8 @@ app.put("/favorites/add", (req, res) => {
         fav.direction === newFavorite.direction,
     );
 
-    if (exists) return;
+    if (exists) return res.status(200).json({ message: "Favorite already exists" });
 
-    // Generate UUID for the new favorite
     newFavorite.uuid = crypto.randomUUID();
     json.favorites.push(newFavorite);
 
@@ -88,7 +86,7 @@ app.put("/favorites/add", (req, res) => {
         httpOnly: false,
       });
 
-      res.status(200).json({ message: "Favorite added successfully.", uuid: newFavorite.uuid });
+      res.status(201).json({ message: "Favorite added successfully.", uuid: newFavorite.uuid });
     });
   });
 });
@@ -96,9 +94,14 @@ app.put("/favorites/add", (req, res) => {
 app.delete("/favorites/delete", (req, res) => {
   const favoriteToDelete = req.body;
 
+  if (!validateFavoritesBody(favoriteToDelete)) {
+    return res.status(400).json({ error: "Invalid request Body" });
+  }
+
   if (!favoriteToDelete.uuid) {
     return res.status(400).json({ error: "UUID is required for deletion" });
   }
+
 
   fs.readFile(favoritesPath, "utf-8", (err, data) => {
     if (err)
@@ -111,7 +114,6 @@ app.delete("/favorites/delete", (req, res) => {
       (fav) => fav.uuid !== favoriteToDelete.uuid
     );
 
-    // If no favorite was removed, return early
     if (json.favorites.length === initialLength) {
       return res.status(404).json({ error: "Favorite not found" });
     }

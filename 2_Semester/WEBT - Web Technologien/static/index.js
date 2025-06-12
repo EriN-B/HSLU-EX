@@ -94,7 +94,7 @@ async function saveGradient() {
   });
 
   if (res.ok) {
-    renderFavorites();
+    await renderFavorites();
   } else {
     alert("Failed to save gradient. Try again.");
   }
@@ -115,8 +115,12 @@ async function renderFavorites() {
 
 async function deleteFavorite(gradient) {
   try {
-    // We only need to send the UUID for deletion
-    const deletePayload = { uuid: gradient.uuid };
+    const deletePayload = {
+      uuid: gradient.uuid,
+      left: gradient.left,
+      right: gradient.right,
+      direction: gradient.direction
+    };
 
     const res = await fetch(FAVORITES_DELETE_URL, {
       method: "DELETE",
@@ -125,7 +129,7 @@ async function deleteFavorite(gradient) {
     });
 
     if (res.ok) {
-      renderFavorites(); // Refresh the favorites list
+      await renderFavorites();
     } else {
       const errorData = await res.json();
       alert(`Failed to delete favorite: ${errorData.error || 'Unknown error'}`);
@@ -154,9 +158,7 @@ function makeGradientDiv(g, isFavorite = false) {
   div.style.background = generateGradientCSS(g.direction, g.left, g.right);
   div.className = "gradient-item";
 
-  // Add click event to load the gradient
   div.addEventListener("click", (e) => {
-    // Don't trigger if clicking the delete button
     if (e.target.classList.contains('delete-btn')) return;
 
     const leftInput = document.getElementById("leftGradient");
@@ -164,7 +166,6 @@ function makeGradientDiv(g, isFavorite = false) {
     leftInput.value = g.left;
     rightInput.value = g.right;
     document.getElementById("direction").value = g.direction;
-    // Update hex inputs
     syncHex(leftInput);
     syncHex(rightInput);
     generateGradient();
@@ -173,7 +174,6 @@ function makeGradientDiv(g, isFavorite = false) {
       .scrollIntoView({ behavior: "smooth", block: "center" });
   });
 
-  // Add delete button only for favorites
   if (isFavorite) {
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "delete-btn";
@@ -223,7 +223,6 @@ function renderLastFavoriteFromCookie() {
     leftInput.value = left;
     rightInput.value = right;
     document.getElementById("direction").value = direction;
-    // Update hex inputs
     syncHex(leftInput);
     syncHex(rightInput);
     generateGradient();

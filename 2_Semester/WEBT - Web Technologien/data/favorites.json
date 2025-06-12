@@ -1,104 +1,16 @@
 {
   "favorites": [
     {
-      "right": "#f2709c",
-      "left": "#ff9472",
-      "direction": "to top"
-    },
-    {
-      "right": "#f2709c",
-      "left": "#000000",
-      "direction": "to right"
-    },
-    {
-      "right": "#f00000",
-      "left": "#f6b73c",
-      "direction": "to right"
-    },
-    {
-      "right": "#f00000",
-      "left": "#f6b73c",
-      "direction": "to bottom"
-    },
-    {
-      "right": "#f00000",
-      "left": "#e66465",
-      "direction": "to bottom"
-    },
-    {
-      "right": "#000000",
-      "left": "#000000",
-      "direction": "to bottom"
-    },
-    {
-      "left": "#000000",
-      "right": "#ff0000",
-      "direction": "to right"
-    },
-    {
       "left": "#f6b73c",
       "right": "#f00000",
-      "direction": "to bottom right"
+      "direction": "to right",
+      "uuid": "9af86ff5-411a-439e-b199-9325f2036067"
     },
     {
-      "left": "#f6b73c",
-      "right": "#af9292",
-      "direction": "to bottom right"
-    },
-    {
-      "left": "#e66465",
-      "right": "#000000",
-      "direction": "to bottom"
-    },
-    {
-      "left": "#8f95a3",
-      "right": "#4a4e4f",
-      "direction": "to top right"
-    },
-    {
-      "left": "#ffd1ff",
-      "right": "#fad0c4",
-      "direction": "to right"
-    },
-    {
-      "left": "#5b86e5",
-      "right": "#36d1dc",
-      "direction": "to right"
-    },
-    {
-      "left": "#4b4e53",
-      "right": "#b5c200",
-      "direction": "to top right"
-    },
-    {
-      "left": "#0062ff",
-      "right": "#b5c200",
-      "direction": "to top right"
-    },
-    {
-      "left": "#0062ff",
-      "right": "#ffffff",
-      "direction": "to top right"
-    },
-    {
-      "left": "#ff9472",
-      "right": "#f2709c",
-      "direction": "to right"
-    },
-    {
-      "left": "#f6b73c",
-      "right": "#e66465",
-      "direction": "to right"
-    },
-    {
-      "left": "#4d4d4d",
-      "right": "#e66465",
-      "direction": "to right"
-    },
-    {
-      "left": "#000000",
-      "right": "#000000",
-      "direction": "to right"
+      "left": "#11ff00",
+      "right": "#adadad",
+      "direction": "to right",
+      "uuid": "a09f7f32-4682-4f41-8f00-86ce6f70c81e"
     }
   ]
 }
