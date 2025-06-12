@@ -29,7 +29,28 @@ app.get("/favorites", (req, res) => {
   fs.readFile(favoritesPath, "utf8", (err, data) => {
     if (err)
       return res.status(500).json({ error: "Failed to read internal Data" });
-    res.status(200).json({ ...JSON.parse(data) });
+
+    const jsonData = JSON.parse(data);
+    const response = { ...jsonData };
+
+    if (req.headers.cookie) {
+      const cookies = req.headers.cookie.split(';').reduce((acc, cookie) => {
+        const [key, value] = cookie.trim().split('=');
+        acc[key] = value;
+        return acc;
+      }, {});
+
+      if (cookies.lastFavorite) {
+        try {
+          const lastFavorite = JSON.parse(decodeURIComponent(cookies.lastFavorite));
+          response.lastFavorite = lastFavorite;
+        } catch (error) {
+          console.error("Error parsing lastFavorite cookie:", error);
+        }
+      }
+    }
+
+    res.status(200).json(response);
   });
 });
 
