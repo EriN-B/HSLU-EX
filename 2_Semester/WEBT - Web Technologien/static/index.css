@@ -1,12 +1,11 @@
 body {
-    margin: 0;
+    margin: 0 auto;
     padding: 2rem;
     font-family: system-ui, sans-serif;
     background-color: #f8f9fa;
     color: #212529;
     line-height: 1.6;
     max-width: 900px;
-    margin-inline: auto;
 }
 
 .hero-section {
@@ -37,14 +36,8 @@ body {
 }
 
 @media (max-width: 600px) {
-    .hero-content {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .hero-image {
-        width: 100px;
-    }
+    .hero-content { flex-direction: column; text-align: center; }
+    .hero-image { width: 100px; }
 }
 
 h2 {
@@ -80,8 +73,7 @@ h2 {
 }
 
 .color-input {
-    width: 100px;
-    height: 100px;
+    width: 100px; height: 100px;
     border: none;
     cursor: pointer;
     background-color: transparent;
@@ -113,24 +105,21 @@ button:hover {
     background-color: #2f2e2d;
 }
 
-#favoritesList,
-#exploreList {
+#favoritesList, #exploreList {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 1rem;
     margin-top: 1rem;
 }
 
-#favoritesList div,
-#exploreList div {
+#favoritesList div, #exploreList div {
     height: 100px;
     border-radius: 0.5rem;
     border: 1px solid #ccc;
     transition: transform 0.2s;
 }
 
-#favoritesList div:hover,
-#exploreList div:hover {
+#favoritesList div:hover, #exploreList div:hover {
     transform: scale(1.03);
     cursor: pointer;
 }
@@ -148,16 +137,14 @@ button:hover {
     align-items: center;
     margin-top: 1rem;
 }
-
 .direction-picker label {
     margin-bottom: 0.5rem;
     font-weight: 500;
 }
-
 #direction {
     padding: 0.5rem;
-    border-radius: 0.4rem;
     border: 1px solid #ccc;
+    border-radius: 0.4rem;
     background-color: #fff;
     font-size: 1rem;
     width: 200px;
@@ -184,44 +171,25 @@ button:hover {
     position: absolute;
     width: 1px; height: 1px;
     padding: 0; margin: -1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    border: 0;
+    overflow: hidden; clip: rect(0 0 0 0); border: 0;
 }
 
 .input-error {
     border: 1px solid red;
 }
 
-/* Styles for the gradient item and delete button */
-.gradient-item {
-    position: relative;
-}
-
+.gradient-item { position: relative; }
 .delete-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 24px;
-    height: 24px;
-    padding: 0;
+    position: absolute; top: 5px; right: 5px;
+    width: 24px; height: 24px; padding: 0;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.7);
-    color: #333;
-    font-size: 16px;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    opacity: 0;
+    color: #333; font-size: 16px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; opacity: 0;
     transition: opacity 0.2s ease;
 }
-
-.gradient-item:hover .delete-btn {
-    opacity: 1;
-}
-
+.gradient-item:hover .delete-btn { opacity: 1; }
 .delete-btn:hover {
     background-color: rgba(255, 255, 255, 0.9);
     color: #ff0000;
