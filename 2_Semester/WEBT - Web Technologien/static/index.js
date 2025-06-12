@@ -124,9 +124,14 @@ function makeGradientDiv(g) {
   const div = document.createElement("div");
   div.style.background = generateGradientCSS(g.direction, g.left, g.right);
   div.addEventListener("click", () => {
-    document.getElementById("leftGradient").value = g.left;
-    document.getElementById("rightGradient").value = g.right;
+    const leftInput = document.getElementById("leftGradient");
+    const rightInput = document.getElementById("rightGradient");
+    leftInput.value = g.left;
+    rightInput.value = g.right;
     document.getElementById("direction").value = g.direction;
+    // Update hex inputs
+    syncHex(leftInput);
+    syncHex(rightInput);
     generateGradient();
     document
       .getElementById("gradientCanvas")
@@ -164,9 +169,14 @@ function renderLastFavoriteFromCookie() {
   if (!cookie) return;
   try {
     const { left, right, direction } = JSON.parse(decodeURIComponent(cookie));
-    document.getElementById("leftGradient").value = left;
-    document.getElementById("rightGradient").value = right;
+    const leftInput = document.getElementById("leftGradient");
+    const rightInput = document.getElementById("rightGradient");
+    leftInput.value = left;
+    rightInput.value = right;
     document.getElementById("direction").value = direction;
+    // Update hex inputs
+    syncHex(leftInput);
+    syncHex(rightInput);
     generateGradient();
   } catch (err) {
     console.warn("Invalid cookie:", err);
