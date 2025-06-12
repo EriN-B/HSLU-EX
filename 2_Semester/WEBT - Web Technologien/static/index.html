@@ -1,90 +1,98 @@
 <!doctype html>
-<html>
-    <head>
-        <title>Gradient Generator</title>
-        <link
-            rel="stylesheet"
-            href="https://www.w3schools.com/w3css/5/w3.css"
-        />
-        <link rel="stylesheet" href="./index.css" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    </head>
-    <body>
-        <section id="hero" class="hero-section w3-container">
-            <div class="hero-content w3-flex">
-                <img
+<html lang="de">
+<head>
+    <meta charset="utf-8" />
+    <title>Gradient Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css" />
+    <link rel="stylesheet" href="./index.css" />
+</head>
+<body>
+<nav class="w3-container w3-center" aria-label="Main Navigation">
+    <div class="w3-bar w3-display-inline-block w3-border w3-round">
+        <a href="#information" class="w3-bar-item w3-button w3-border-right">Info</a>
+        <a href="#generator"   class="w3-bar-item w3-button w3-border-right">Generator</a>
+        <a href="#favorites"   class="w3-bar-item w3-button w3-border-right">Favoriten</a>
+        <a href="#explore"     class="w3-bar-item w3-button">Explore</a>
+    </div>
+</nav>
+
+<main>
+    <section id="information" aria-labelledby="info-heading" class="w3-container">
+        <div class="hero-content w3-flex">
+            <img
                     src="assets/swatch-book.svg"
                     alt="Illustration of a swatch book for gradients"
                     class="hero-image"
-                />
-                <div class="hero-text">
-                    <p>
-                        Welcome to the Gradient Generator! Select two colors,
-                        choose a direction, and instantly preview and save your
-                        CSS gradients. Manage your favorites and explore
-                        inspiring presets.
-                    </p>
-                </div>
+            />
+            <div class="hero-text">
+                <p>
+                    Welcome to the Gradient Generator! Select two colors,
+                    choose a direction, and instantly preview and save your
+                    CSS gradients. Manage your favorites and explore
+                    inspiring presets.
+                </p>
             </div>
-        </section>
-        <div class="gradient_preview"></div>
-        <canvas id="gradientCanvas" width="400" height="50"></canvas>
+        </div>
+    </section>
 
-        <div class="picker-container w3-flex">
-            <div class="color-picker">
-                <input
-                    type="color"
-                    id="leftGradient"
-                    name="body"
-                    value="#f6b73c"
-                    class="color-input"
-                />
-                <input type="text" class="hex-input" value="#f6b73c" />
-                <small class="error-message"></small>
-            </div>
+
+    <section id="generator" aria-labelledby="gen-heading" class="w3-container">
+        <h2 id="gen-heading" class="visually-hidden">Gradient Generator</h2>
+
+        <div class="gradient_preview" role="region" aria-label="Gradientenvorschau"></div>
+        <canvas id="gradientCanvas" width="400" height="50" role="img" aria-label="Farbverlauf-Strip"></canvas>
+
+        <div class="picker-container w3-flex" role="form" aria-labelledby="picker-heading">
+            <h3 id="picker-heading" class="visually-hidden">Color selector</h3>
 
             <div class="color-picker">
-                <input
-                    type="color"
-                    id="rightGradient"
-                    name="head"
-                    value="#e66465"
-                    class="color-input"
-                />
-                <input type="text" class="hex-input" value="#e66465" />
-                <small class="error-message"></small>
+                <label for="leftGradient" class="visually-hidden">Left Color</label>
+                <input type="color" id="leftGradient" name="leftGradient" value="#f6b73c" class="color-input" />
+                <input type="text" id="leftHex" class="hex-input" value="#f6b73c" aria-describedby="leftHexError" />
+                <small id="leftHexError" class="error-message" role="alert" aria-live="assertive"></small>
+            </div>
+
+            <div class="color-picker">
+                <label for="rightGradient" class="visually-hidden">Right Color</label>
+                <input type="color" id="rightGradient" name="rightGradient" value="#e66465" class="color-input" />
+                <input type="text" id="rightHex" class="hex-input" value="#e66465" aria-describedby="rightHexError" />
+                <small id="rightHexError" class="error-message" role="alert" aria-live="assertive"></small>
             </div>
         </div>
 
         <div class="direction-picker">
-            <label for="direction">Direction</label>
-            <select id="direction">
+            <label for="direction">Richtung</label>
+            <select id="direction" aria-describedby="directionHelp">
                 <option value="to right">→ Right</option>
                 <option value="to left">← Left</option>
-                <option value="to bottom">↓ Bottom</option>
-                <option value="to top">↑ Top</option>
-                <option value="to bottom right">↘ Bottom Right</option>
-                <option value="to bottom left">↙ Bottom Left</option>
-                <option value="to top right">↗ Top Right</option>
-                <option value="to top left">↖ Top Left</option>
+                <option value="to bottom">↓ Down</option>
+                <option value="to top">↑ Up</option>
+                <option value="to bottom right">↘ Down Right</option>
+                <option value="to bottom left">↙ Down Left</option>
+                <option value="to top right">↗ Oben Right</option>
+                <option value="to top left">↖ Up Left</option>
             </select>
+            <small id="directionHelp" class="visually-hidden">Pick the direction of the gradient</small>
         </div>
 
         <div class="actions w3-flex">
             <button id="copy">Copy</button>
-            <button id="save">Save</button>
+            <button id="save">Safe</button>
         </div>
+    </section>
 
-        <section id="favorites">
-            <h2>Favorites</h2>
-            <div id="favoritesList" class="w3-grid"></div>
-        </section>
+    <section id="favorites" aria-labelledby="fav-heading" class="w3-container">
+        <h2 id="fav-heading">Favoriten</h2>
+        <div id="favoritesList" class="w3-grid" role="region" aria-live="polite"></div>
+    </section>
 
-        <section id="explore">
-            <h2>Explore</h2>
-            <div id="exploreList" class="w3-grid"></div>
-        </section>
+    <section id="explore" aria-labelledby="exp-heading" class="w3-container">
+        <h2 id="exp-heading">Explore</h2>
+        <div id="exploreList" class="w3-grid" role="region" aria-live="polite"></div>
+    </section>
+</main>
 
-        <script type="module" src="./index.js"></script>
-    </body>
+<script type="module" src="./index.js"></script>
+</body>
 </html>
