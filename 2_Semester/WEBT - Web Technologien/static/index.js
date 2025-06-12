@@ -96,7 +96,8 @@ async function saveGradient() {
   if (res.ok) {
     await renderFavorites();
   } else {
-    alert("Failed to save gradient. Try again.");
+    const message=await res.json()
+    alert(message.error ?? "Failed to save gradient. Try again.");
   }
 }
 

@@ -72,7 +72,7 @@ app.put("/favorites/add", (req, res) => {
         fav.direction === newFavorite.direction,
     );
 
-    if (exists) return res.status(200).json({ message: "Favorite already exists" });
+    if (exists) return res.status(409).json({ error: "Favorite already exists" });
 
     newFavorite.uuid = crypto.randomUUID();
     json.favorites.push(newFavorite);
